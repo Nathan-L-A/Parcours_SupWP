@@ -1,0 +1,221 @@
+// =============================================
+// Variables
+// =============================================
+@primary:       #2563eb;
+@primary-dark:  darken(@primary, 8%);
+@danger:        #dc2626;
+@success:       #16a34a;
+@warning:       #d97706;
+@border:        #e2e8f0;
+@bg-light:      #f8fafc;
+@text:          #1e293b;
+@muted:         #64748b;
+@radius:        6px;
+@transition:    all 0.2s ease;
+
+// =============================================
+// Mixins
+// =============================================
+.badge(@bg; @color) {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: @bg;
+    color: @color;
+}
+
+// =============================================
+// Admin wrap
+// =============================================
+.is-admin-wrap {
+    .is-table {
+        margin-top: 1rem;
+
+        th, td {
+            vertical-align: middle;
+            padding: 10px 12px;
+        }
+    }
+
+    .is-badge {
+        &--active   { .badge(#dcfce7; @success); }
+        &--inactive { .badge(#fee2e2; @danger);  }
+    }
+
+    .is-btn-add {
+        margin-left: 0.5rem;
+    }
+}
+
+// =============================================
+// Modal overlay
+// =============================================
+.is-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+// =============================================
+// Modal box
+// =============================================
+.is-modal {
+    background: #fff;
+    border-radius: @radius;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    &--lg {
+        max-width: 680px;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid @border;
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 1.1rem;
+        color: @text;
+    }
+
+    &__close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+        color: @muted;
+        padding: 0 4px;
+        transition: @transition;
+
+        &:hover { color: @danger; }
+    }
+
+    form {
+        padding: 1.25rem;
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    &__footer {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid @border;
+        margin-top: 1rem;
+
+        .is-feedback {
+            flex: 1;
+            font-size: 0.875rem;
+
+            &.error   { color: @danger;  }
+            &.success { color: @success; }
+        }
+    }
+}
+
+// =============================================
+// Form groups
+// =============================================
+.is-form-group {
+    margin-bottom: 1rem;
+
+    label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: @text;
+        margin-bottom: 4px;
+
+        span { color: @danger; }
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid @border;
+        border-radius: (@radius - 1px);
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        transition: @transition;
+        outline: none;
+        font-family: inherit;
+        color: @text;
+
+        &:focus {
+            border-color: @primary;
+            box-shadow: 0 0 0 3px fade(@primary, 15%);
+        }
+    }
+
+    &--inline label {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-weight: 400;
+    }
+}
+
+.is-form-row {
+    display: flex;
+    gap: 1rem;
+
+    .is-form-group { flex: 1; }
+}
+
+// =============================================
+// Choices checkbox grid (campagne modal)
+// =============================================
+.is-choices-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border: 1px solid @border;
+    border-radius: (@radius - 1px);
+    padding: 0.75rem;
+    background: @bg-light;
+
+    .is-choice-check {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.875rem;
+        background: #fff;
+        border: 1px solid @border;
+        border-radius: 999px;
+        padding: 4px 12px;
+        cursor: pointer;
+        transition: @transition;
+
+        &:hover { border-color: @primary; }
+
+        input[type="checkbox"]:checked + & {
+            background: @primary;
+            color: #fff;
+            border-color: @primary;
+        }
+    }
+}

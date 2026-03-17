@@ -23,7 +23,9 @@ if (!defined('INSSETSUP_FILE')) {
         $install->setup();
     });
 
-    if (!is_admin())
+    if (is_admin())
+        new InssetSup_Main_Admin();
+    else
         new InssetSup_Main_Front();
 
 }
