@@ -1,0 +1,198 @@
+// =============================================
+// Variables
+// =============================================
+@primary:      #2563eb;
+@primary-dark: darken(@primary, 8%);
+@success:      #16a34a;
+@danger:       #dc2626;
+@bg:           #f1f5f9;
+@card-bg:      #ffffff;
+@text:         #1e293b;
+@muted:        #64748b;
+@border:       #e2e8f0;
+@radius:       8px;
+@transition:   all 0.2s ease;
+
+// =============================================
+// Campaign wrapper
+// =============================================
+.is-campaign-wrap {
+    display: flex;
+    justify-content: center;
+    min-height: 80vh;
+    background: @bg;
+    padding: 2rem 1rem;
+
+    .is-campaign-card {
+        background: @card-bg;
+        border-radius: @radius;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        width: 100%;
+        max-width: 560px;
+        padding: 2.5rem;
+        align-self: flex-start;
+
+        // ── En-tête ──────────────────────────
+        .is-campaign-header {
+            margin-bottom: 2rem;
+
+            h2 {
+                margin: 0 0 0.5rem;
+                color: @text;
+                font-size: 1.4rem;
+            }
+
+            .is-campaign-desc {
+                color: @muted;
+                margin: 0;
+                font-size: 0.95rem;
+            }
+        }
+
+        // ── Récapitulatif ─────────────────────
+        .is-recap {
+            h3 {
+                margin: 0 0 1rem;
+                color: @text;
+                font-size: 1.05rem;
+            }
+
+            .is-recap-list {
+                margin: 0 0 1.5rem;
+                padding-left: 1.5rem;
+
+                li {
+                    padding: 0.55rem 0;
+                    color: @text;
+                    font-size: 0.95rem;
+                    border-bottom: 1px solid @border;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+
+        // ── Formulaire ────────────────────────
+        .is-campaign-form {
+            .is-select-group {
+                margin-bottom: 1.25rem;
+
+                label {
+                    display: block;
+                    margin-bottom: 0.4rem;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: @text;
+                }
+
+                select {
+                    width: 100%;
+                    padding: 0.6rem 2rem 0.6rem 0.75rem;
+                    border: 1px solid @border;
+                    border-radius: @radius;
+                    font-size: 0.95rem;
+                    color: @text;
+                    background-color: #fff;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%2364748b' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 0.75rem center;
+                    appearance: none;
+                    cursor: pointer;
+                    transition: @transition;
+                    box-sizing: border-box;
+
+                    &:focus {
+                        outline: 2px solid @primary;
+                        outline-offset: 2px;
+                        border-color: @primary;
+                    }
+
+                    &:disabled {
+                        background-color: #f8fafc;
+                        color: @muted;
+                        cursor: not-allowed;
+                        opacity: 0.6;
+                    }
+                }
+            }
+
+            .is-form-actions {
+                margin-top: 1.75rem;
+            }
+        }
+
+        // ── Message feedback ──────────────────
+        .is-message {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+
+            &.is-message--success {
+                color: @success;
+                display: block;
+            }
+
+            &.is-message--error {
+                color: @danger;
+                display: block;
+            }
+        }
+
+        // ── Aucune campagne ───────────────────
+        .is-no-campaign {
+            text-align: center;
+            color: @muted;
+            padding: 2rem 0;
+        }
+
+        // ── Boutons ───────────────────────────
+        .is-btn {
+            display: inline-block;
+            padding: 0.65rem 1.5rem;
+            border-radius: @radius;
+            font-size: 0.95rem;
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            transition: @transition;
+            text-align: center;
+            text-decoration: none;
+
+            &--primary {
+                background: @primary;
+                color: #fff;
+                width: 100%;
+                box-sizing: border-box;
+
+                &:hover {
+                    background: @primary-dark;
+                }
+
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+            }
+
+            &--outline {
+                background: transparent;
+                color: @primary;
+                border: 2px solid @primary;
+                font-size: 0.875rem;
+                padding: 0.45rem 1.2rem;
+
+                &:hover {
+                    background: @primary;
+                    color: #fff;
+                }
+            }
+        }
+
+        // ── Utilitaire ────────────────────────
+        .is-hidden {
+            display: none !important;
+        }
+    }
+}

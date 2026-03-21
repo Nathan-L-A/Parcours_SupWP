@@ -83,6 +83,7 @@ class InssetSup_Install_Index {
         ) ENGINE=InnoDB $charset_collate;");
 
         $this->setup_front_page();
+        $this->setup_campaign_page();
 
     }
 
@@ -117,6 +118,24 @@ class InssetSup_Install_Index {
         update_option('show_on_front', 'page');
         update_option('page_on_front', $page_id);
 
+    }
+
+    private function setup_campaign_page() {
+        if (get_option('inssetsup_campaign_page_id'))
+            return;
+
+        $page_id = wp_insert_post(array(
+            'post_title'   => 'Campagne',
+            'post_name'    => 'campagne',
+            'post_content' => '[inssetsup_campagne]',
+            'post_status'  => 'publish',
+            'post_type'    => 'page',
+        ));
+
+        if (!is_wp_error($page_id) && $page_id) {
+            update_post_meta($page_id, '_inssetsup_page', 'campaign');
+            update_option('inssetsup_campaign_page_id', $page_id);
+        }
     }
 
 }
