@@ -310,5 +310,54 @@
         .is-hidden {
             display: none !important;
         }
+
+        // ── Page de confirmation ──────────────
+        .is-confirmation {
+            text-align: center;
+            padding: 1rem 0 0.5rem;
+
+            &__icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                background: @success;
+                color: #fff;
+                font-size: 1.75rem;
+                margin-bottom: 1.25rem;
+            }
+
+            &__title {
+                margin: 0 0 0.5rem;
+                color: @text;
+                font-size: 1.3rem;
+            }
+
+            &__subtitle {
+                color: @muted;
+                font-size: 0.92rem;
+                margin: 0 0 1.75rem;
+            }
+
+            &__list {
+                text-align: left;
+                margin: 0 auto 2rem;
+                max-width: 380px;
+                padding-left: 1.5rem;
+
+                li {
+                    padding: 0.6rem 0;
+                    color: @text;
+                    font-size: 0.95rem;
+                    border-bottom: 1px solid @border;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
     }
 }

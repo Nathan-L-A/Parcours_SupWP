@@ -129,14 +129,9 @@
                         return;
                     }
 
-                    var $list = $recap.find(".is-recap-list").empty();
-                    $.each(res.data.recap, function (_, name) {
-                        $list.append($("<li>").text(name));
-                    });
-
-                    $form.addClass("is-hidden");
-                    $recap.removeClass("is-hidden");
-                    $msg.removeClass("is-message--success is-message--error").text("").hide();
+                    // Redirection vers la page de confirmation
+                    var base = window.location.href.split("?")[0];
+                    window.location.href = base + "?campaign_id=" + encodeURIComponent(campaignId) + "&confirmed=1";
                 }
             );
         });

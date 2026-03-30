@@ -13,6 +13,11 @@ class InssetSup_Shortcode_Campaign {
             ? sanitize_text_field(wp_unslash($_GET['campaign_id']))
             : '';
 
+        $confirmed = $campaign_id && isset($_GET['confirmed']) && $_GET['confirmed'] === '1';
+
+        if ($confirmed)
+            return self::render_confirmation($campaign_id);
+
         if ($campaign_id)
             return self::render_form($campaign_id);
 
@@ -85,6 +90,68 @@ class InssetSup_Shortcode_Campaign {
                     </li>
                     <?php endforeach; ?>
                 </ul>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    // ─────────────────────────────────────────
+    // Page de confirmation (après validation)
+    // ─────────────────────────────────────────
+
+    private static function render_confirmation($campaign_id) {
+
+        $campaigns = InssetSup_Crud_StudentChoice::get_active_campaigns_with_enough_formations(3);
+        $campaign  = null;
+        foreach ($campaigns as $c) {
+            if ($c->id_campaign === $campaign_id) {
+                $campaign = $c;
+                break;
+            }
+        }
+
+        if (!$campaign) {
+            wp_redirect(get_permalink());
+            exit;
+        }
+
+        $student_id = InssetSup_Helper_Auth::get_current_student_id();
+        $stc_id     = InssetSup_Crud_StudentChoice::get_student_stc_id($student_id, $campaign->id_campaign);
+        $choices    = $stc_id ? InssetSup_Crud_StudentChoice::get_student_choices($stc_id) : array();
+
+        if (count($choices) !== 3) {
+            wp_redirect(add_query_arg('campaign_id', $campaign_id, get_permalink()));
+            exit;
+        }
+
+        $back_url = get_permalink();
+
+        ob_start();
+        ?>
+        <div class="is-campaign-wrap">
+            <div class="is-campaign-card">
+
+                <?php echo self::render_topbar(); ?>
+
+                <div class="is-confirmation">
+                    <div class="is-confirmation__icon">✓</div>
+                    <h2 class="is-confirmation__title">Vos choix ont été enregistrés&nbsp;!</h2>
+                    <p class="is-confirmation__subtitle">
+                        Campagne&nbsp;: <strong><?php echo esc_html($campaign->name_campaign); ?></strong>
+                    </p>
+
+                    <ol class="is-confirmation__list">
+                        <?php foreach ($choices as $ch): ?>
+                            <li><?php echo esc_html($ch->name_choice); ?></li>
+                        <?php endforeach; ?>
+                    </ol>
+
+                    <a href="<?php echo esc_url($back_url); ?>" class="is-btn is-btn--outline">
+                        ← Retour aux campagnes
+                    </a>
+                </div>
+
             </div>
         </div>
         <?php
