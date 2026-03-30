@@ -7,14 +7,22 @@ add_action('wp_ajax_nopriv_inssetsup_save_choices',  array('InssetSup_Actions_St
 class InssetSup_Actions_StudentChoice {
 
     public static function save_choices() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         check_ajax_referer('inssetsup_campaign_nonce', 'nonce');
 
         if (!InssetSup_Helper_Auth::is_student_logged_in())
             wp_send_json_error(array('message' => 'Vous devez être connecté pour enregistrer vos choix.'));
 
-        $c1 = isset($_POST['choice_1']) ? sanitize_text_field(wp_unslash($_POST['choice_1'])) : '';
-        $c2 = isset($_POST['choice_2']) ? sanitize_text_field(wp_unslash($_POST['choice_2'])) : '';
-        $c3 = isset($_POST['choice_3']) ? sanitize_text_field(wp_unslash($_POST['choice_3'])) : '';
+        $campaign_id = isset($_POST['campaign_id']) ? sanitize_text_field(wp_unslash($_POST['campaign_id'])) : '';
+        $c1          = isset($_POST['choice_1'])    ? sanitize_text_field(wp_unslash($_POST['choice_1']))    : '';
+        $c2          = isset($_POST['choice_2'])    ? sanitize_text_field(wp_unslash($_POST['choice_2']))    : '';
+        $c3          = isset($_POST['choice_3'])    ? sanitize_text_field(wp_unslash($_POST['choice_3']))    : '';
+
+        if (!$campaign_id)
+            wp_send_json_error(array('message' => 'Campagne non spécifiée.'));
 
         if (!$c1 || !$c2 || !$c3)
             wp_send_json_error(array('message' => 'Veuillez sélectionner vos 3 choix.'));
@@ -22,11 +30,20 @@ class InssetSup_Actions_StudentChoice {
         if ($c1 === $c2 || $c1 === $c3 || $c2 === $c3)
             wp_send_json_error(array('message' => 'Vous ne pouvez pas sélectionner la même formation deux fois.'));
 
-        $campaign = InssetSup_Crud_StudentChoice::get_active_campaign();
-        if (!$campaign)
-            wp_send_json_error(array('message' => 'Aucune campagne active.'));
+        // Vérifie que la campagne est valide, active et a assez de formations
+        $campaigns = InssetSup_Crud_StudentChoice::get_active_campaigns_with_enough_formations(3);
+        $campaign  = null;
+        foreach ($campaigns as $c) {
+            if ($c->id_campaign === $campaign_id) {
+                $campaign = $c;
+                break;
+            }
+        }
 
-        // Vérification que les choix appartiennent bien à la campagne active
+        if (!$campaign)
+            wp_send_json_error(array('message' => 'Campagne invalide ou inactive.'));
+
+        // Vérification que les choix appartiennent bien à la campagne
         $formations = InssetSup_Crud_StudentChoice::get_campaign_formations($campaign->id_campaign);
         $valid_ids  = wp_list_pluck($formations, 'id_choice');
 

@@ -90,20 +90,21 @@ class InssetSup_Main_Front {
         if (file_exists($camp_js_file)) {
             wp_enqueue_script('inssetsup-campaign', plugins_url($camp_js_rel), array('jquery'), filemtime($camp_js_file), true);
 
-            // Formations de la campagne active pour le JS (reconstruit les <select>)
-            $campaign   = InssetSup_Crud_StudentChoice::get_active_campaign();
-            $formations = $campaign
-                ? InssetSup_Crud_StudentChoice::get_campaign_formations($campaign->id_campaign)
-                : array();
-
+            // Formations de la campagne demandée (uniquement si GET campaign_id + étudiant connecté)
+            $campaign_id     = isset($_GET['campaign_id']) ? sanitize_text_field(wp_unslash($_GET['campaign_id'])) : '';
             $formations_data = array();
-            foreach ($formations as $f)
-                $formations_data[] = array('id' => $f->id_choice, 'name' => $f->name_choice);
+
+            if ($campaign_id && InssetSup_Helper_Auth::is_student_logged_in()) {
+                $formations = InssetSup_Crud_StudentChoice::get_campaign_formations($campaign_id);
+                foreach ($formations as $f)
+                    $formations_data[] = array('id' => $f->id_choice, 'name' => $f->name_choice);
+            }
 
             wp_localize_script('inssetsup-campaign', 'InssetsupCampaign', array(
-                'ajax_url'   => admin_url('admin-ajax.php'),
-                'nonce'      => wp_create_nonce('inssetsup_campaign_nonce'),
-                'formations' => $formations_data,
+                'ajax_url'    => admin_url('admin-ajax.php'),
+                'nonce'       => wp_create_nonce('inssetsup_campaign_nonce'),
+                'formations'  => $formations_data,
+                'campaign_id' => $campaign_id,
             ));
         }
     }

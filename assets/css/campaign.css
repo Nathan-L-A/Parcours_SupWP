@@ -14,6 +14,18 @@
   padding: 2.5rem;
   align-self: flex-start;
 }
+.is-campaign-wrap .is-campaign-card .is-card-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.is-campaign-wrap .is-campaign-card .is-card-topbar .is-student-name {
+  font-size: 0.88rem;
+  color: #64748b;
+}
 .is-campaign-wrap .is-campaign-card .is-campaign-header {
   margin-bottom: 2rem;
 }
@@ -103,6 +115,60 @@
   color: #64748b;
   padding: 2rem 0;
 }
+.is-campaign-wrap .is-campaign-card .is-list-title {
+  margin: 0 0 1.5rem;
+  color: #1e293b;
+  font-size: 1.4rem;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item:last-child {
+  margin-bottom: 0;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item:hover {
+  background: #f8fafc;
+  border-color: #2563eb;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item:hover .is-campaign-item__arrow {
+  color: #2563eb;
+  transform: translateX(4px);
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item__name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item__desc {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item__arrow {
+  font-size: 1.1rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
 .is-campaign-wrap .is-campaign-card .is-btn {
   display: inline-block;
   padding: 0.65rem 1.5rem;
@@ -138,6 +204,37 @@
 .is-campaign-wrap .is-campaign-card .is-btn--outline:hover {
   background: #2563eb;
   color: #fff;
+}
+.is-campaign-wrap .is-campaign-card .is-btn--logout {
+  background: none;
+  border: 1px solid #dc2626;
+  color: #dc2626;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.85rem;
+}
+.is-campaign-wrap .is-campaign-card .is-btn--logout:hover {
+  background: #dc2626;
+  color: #fff;
+}
+.is-campaign-wrap .is-campaign-card .is-btn--logout:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.is-campaign-wrap .is-campaign-card .is-btn--back {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.875rem;
+  padding: 0;
+  margin-bottom: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  display: inline-block;
+  text-decoration: none;
+}
+.is-campaign-wrap .is-campaign-card .is-btn--back:hover {
+  color: #2563eb;
 }
 .is-campaign-wrap .is-campaign-card .is-hidden {
   display: none !important;

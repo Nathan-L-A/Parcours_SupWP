@@ -1,55 +1,123 @@
-<?php
+﻿<?php
 
 class InssetSup_Shortcode_Campaign {
 
     public static function render() {
 
-        // Redirection si non connecté
         if (!InssetSup_Helper_Auth::is_student_logged_in()) {
             wp_redirect(home_url('/'));
             exit;
         }
 
-        $campaign = InssetSup_Crud_StudentChoice::get_active_campaign();
+        $campaign_id = isset($_GET['campaign_id'])
+            ? sanitize_text_field(wp_unslash($_GET['campaign_id']))
+            : '';
 
-        // Pas de campagne active
+        if ($campaign_id)
+            return self::render_form($campaign_id);
+
+        return self::render_list();
+    }
+
+    // ─────────────────────────────────────────
+    // Barre supérieure (nom étudiant + déconnexion)
+    // ─────────────────────────────────────────
+
+    private static function render_topbar() {
+        $student = InssetSup_Helper_Auth::get_current_student();
+        $name    = $student
+            ? esc_html($student->fname_student . ' ' . $student->lname_student)
+            : '';
+        ob_start();
+        ?>
+        <div class="is-card-topbar">
+            <?php if ($name): ?>
+                <span class="is-student-name">Bonjour, <?php echo $name; ?></span>
+            <?php endif; ?>
+            <button id="is-logout-btn" class="is-btn is-btn--logout">Déconnexion</button>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    // ─────────────────────────────────────────
+    // Liste des campagnes
+    // ─────────────────────────────────────────
+
+    private static function render_list() {
+        $campaigns = InssetSup_Crud_StudentChoice::get_active_campaigns_with_enough_formations(3);
+
+        ob_start();
+
+        if (empty($campaigns)) {
+            ?>
+            <div class="is-campaign-wrap">
+                <div class="is-campaign-card">
+                    <?php echo self::render_topbar(); ?>
+                    <div class="is-no-campaign">
+                        <p>Aucune campagne disponible pour le moment. Revenez plus tard.</p>
+                    </div>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
+        ?>
+        <div class="is-campaign-wrap">
+            <div class="is-campaign-card">
+                <?php echo self::render_topbar(); ?>
+                <h2 class="is-list-title">Campagnes disponibles</h2>
+                <ul class="is-campaign-items">
+                    <?php foreach ($campaigns as $camp): ?>
+                    <li>
+                        <a
+                            class="is-campaign-item"
+                            href="<?php echo esc_url(add_query_arg('campaign_id', $camp->id_campaign, get_permalink())); ?>"
+                        >
+                            <div class="is-campaign-item__info">
+                                <span class="is-campaign-item__name"><?php echo esc_html($camp->name_campaign); ?></span>
+                                <?php if (!empty($camp->desc_campaign)): ?>
+                                <span class="is-campaign-item__desc"><?php echo esc_html($camp->desc_campaign); ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <span class="is-campaign-item__arrow">→</span>
+                        </a>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    // ─────────────────────────────────────────
+    // Formulaire d'une campagne
+    // ─────────────────────────────────────────
+
+    private static function render_form($campaign_id) {
+
+        // Validation : la campagne doit être active et avoir ≥ 3 formations
+        $campaigns = InssetSup_Crud_StudentChoice::get_active_campaigns_with_enough_formations(3);
+        $campaign  = null;
+        foreach ($campaigns as $c) {
+            if ($c->id_campaign === $campaign_id) {
+                $campaign = $c;
+                break;
+            }
+        }
+
         if (!$campaign) {
-            ob_start();
-            ?>
-            <div class="is-campaign-wrap">
-                <div class="is-campaign-card">
-                    <div class="is-no-campaign">
-                        <p>Aucune campagne active pour le moment. Revenez plus tard.</p>
-                    </div>
-                </div>
-            </div>
-            <?php
-            return ob_get_clean();
+            wp_redirect(get_permalink());
+            exit;
         }
 
-        $student_id = InssetSup_Helper_Auth::get_current_student_id();
-        $stc_id     = InssetSup_Crud_StudentChoice::get_or_create_stc($student_id, $campaign->id_campaign);
-
-        // Erreur de liaison étudiant/campagne
-        if (!$stc_id) {
-            ob_start();
-            ?>
-            <div class="is-campaign-wrap">
-                <div class="is-campaign-card">
-                    <div class="is-no-campaign">
-                        <p>Une erreur est survenue. Veuillez vous déconnecter et réessayer.</p>
-                    </div>
-                </div>
-            </div>
-            <?php
-            return ob_get_clean();
-        }
-
+        $student_id  = InssetSup_Helper_Auth::get_current_student_id();
         $formations  = InssetSup_Crud_StudentChoice::get_campaign_formations($campaign->id_campaign);
-        $existing    = InssetSup_Crud_StudentChoice::get_student_choices($stc_id);
+        $stc_id      = InssetSup_Crud_StudentChoice::get_student_stc_id($student_id, $campaign->id_campaign);
+        $existing    = $stc_id ? InssetSup_Crud_StudentChoice::get_student_choices($stc_id) : array();
         $has_choices = count($existing) === 3;
 
-        // Valeurs pré-sélectionnées (indexées par order 1-3)
         $defaults = array();
         foreach ($existing as $ch)
             $defaults[(int) $ch->choice_order] = $ch->id_choice;
@@ -60,12 +128,16 @@ class InssetSup_Shortcode_Campaign {
             3 => '3<sup>ème</sup> choix',
         );
 
+        $back_url = remove_query_arg('campaign_id');
+
         ob_start();
         ?>
         <div class="is-campaign-wrap">
             <div class="is-campaign-card">
 
-                <!-- En-tête campagne -->
+                <?php echo self::render_topbar(); ?>
+                <a href="<?php echo esc_url($back_url); ?>" class="is-btn is-btn--back">← Retour aux campagnes</a>
+
                 <div class="is-campaign-header">
                     <h2><?php echo esc_html($campaign->name_campaign); ?></h2>
                     <?php if (!empty($campaign->desc_campaign)): ?>
@@ -73,7 +145,7 @@ class InssetSup_Shortcode_Campaign {
                     <?php endif; ?>
                 </div>
 
-                <!-- Récapitulatif (affiché si choix déjà enregistrés) -->
+                <!-- Récapitulatif -->
                 <div id="is-recap" class="is-recap<?php echo $has_choices ? '' : ' is-hidden'; ?>">
                     <h3>Vos choix enregistrés</h3>
                     <ol class="is-recap-list">
@@ -84,8 +156,9 @@ class InssetSup_Shortcode_Campaign {
                     <button id="is-edit-btn" class="is-btn is-btn--outline">Modifier mes choix</button>
                 </div>
 
-                <!-- Formulaire de sélection -->
+                <!-- Formulaire -->
                 <form id="is-campaign-form" class="is-campaign-form<?php echo $has_choices ? ' is-hidden' : ''; ?>" novalidate>
+                    <input type="hidden" name="campaign_id" value="<?php echo esc_attr($campaign->id_campaign); ?>">
 
                     <?php for ($i = 1; $i <= 3; $i++): ?>
                     <div class="is-select-group">
@@ -95,7 +168,7 @@ class InssetSup_Shortcode_Campaign {
                             name="choice_<?php echo $i; ?>"
                             class="is-choice-select"
                             data-order="<?php echo $i; ?>"
-                            <?php echo ($i > 1) ? 'disabled' : ''; ?>
+                            <?php echo $i > 1 ? 'disabled' : ''; ?>
                         >
                             <option value="">— Sélectionner une formation —</option>
                             <?php foreach ($formations as $f): ?>

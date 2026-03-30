@@ -8,7 +8,7 @@ class InssetSup_Crud_StudentChoice {
     }
 
     // ─────────────────────────────────────────
-    // Campagne active
+    // Campagnes actives
     // ─────────────────────────────────────────
 
     public static function get_active_campaign() {
@@ -18,6 +18,32 @@ class InssetSup_Crud_StudentChoice {
              WHERE `isactivated` = 1
              ORDER BY `created_at` DESC
              LIMIT 1"
+        );
+    }
+
+    /**
+     * Retourne les campagnes actives ayant au moins $min formations actives associées.
+     */
+    public static function get_active_campaigns_with_enough_formations($min = 3) {
+        global $wpdb;
+        $t_campaign = self::table('campaign');
+        $t_asso     = self::table('asso_campaign_choice');
+        $t_choice   = self::table('choice');
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT camp.*
+                 FROM `$t_campaign` camp
+                 WHERE camp.isactivated = 1
+                 AND (
+                     SELECT COUNT(*)
+                     FROM `$t_asso` a
+                     INNER JOIN `$t_choice` ch ON ch.id_choice = a.id_choice AND ch.isactivated = 1
+                     WHERE a.id_campaign = camp.id_campaign
+                 ) >= %d
+                 ORDER BY camp.created_at DESC",
+                $min
+            )
         );
     }
 
@@ -81,6 +107,26 @@ class InssetSup_Crud_StudentChoice {
         );
 
         return empty($wpdb->last_error) ? $id : false;
+    }
+
+    /**
+     * Retourne l'id_student_to_campaign existant sans en créer un nouveau.
+     * Utile pour lire les choix existants sans les initialiser.
+     */
+    public static function get_student_stc_id($student_id, $campaign_id) {
+        global $wpdb;
+        $t = self::table('student_to_campaign');
+
+        $row = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT `id_student_to_campaign` FROM `$t`
+                 WHERE `id_student` = %s AND `id_campaign` = %s",
+                $student_id,
+                $campaign_id
+            )
+        );
+
+        return $row ? $row->id_student_to_campaign : null;
     }
 
     // ─────────────────────────────────────────
