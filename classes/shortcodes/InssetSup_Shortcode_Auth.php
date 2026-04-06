@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Shortcode [inssetsup_auth] — Page de connexion / inscription.
+ *
+ * Affiche deux formulaires (connexion + création de compte) accessibles
+ * via des onglets. Si l'étudiant est déjà connecté, il est redirigé
+ * directement vers la page des campagnes.
+ *
+ * Les soumissions sont traitées en AJAX par InssetSup_Actions_Auth.
+ */
+
 class InssetSup_Shortcode_Auth {
 
     public static function render() {
@@ -12,8 +22,16 @@ class InssetSup_Shortcode_Auth {
         ?>
         <div class="inssetsup-auth-wrap">
             <div class="auth-card">
-                <h2>Parcours SupWP</h2>
 
+                <div class="auth-card__header">
+                    <div class="auth-logo">
+                        <span class="auth-logo__badge">InssetSup</span>
+                        <span class="auth-logo__text">Parcours SupWP</span>
+                    </div>
+                    <h2>Accès candidat</h2>
+                </div>
+
+                <div class="auth-card__body">
                 <div class="auth-tabs">
                     <button class="tab-btn active" data-tab="login">Connexion</button>
                     <button class="tab-btn" data-tab="register">Créer un compte</button>
@@ -54,6 +72,8 @@ class InssetSup_Shortcode_Auth {
                     <button type="submit" class="btn-submit">Créer mon compte</button>
                     <div class="auth-message" id="register-message"></div>
                 </form>
+                </div>
+
             </div>
         </div>
         <?php

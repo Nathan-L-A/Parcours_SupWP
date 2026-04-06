@@ -2,151 +2,228 @@
   display: flex;
   justify-content: center;
   min-height: 80vh;
-  background: #f1f5f9;
-  padding: 2rem 1rem;
+  background: #f0f0f0;
+  padding: 2.5rem 1rem;
+  font-family: "Marianne", Arial, sans-serif;
+  font-weight: 600;
 }
 .is-campaign-wrap .is-campaign-card {
   background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 560px;
-  padding: 2.5rem;
+  max-width: 640px;
   align-self: flex-start;
+  border-top: 4px solid #003189;
+  overflow: hidden;
 }
 .is-campaign-wrap .is-campaign-card .is-card-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  background: #003189;
+  padding: 0.65rem 1.5rem;
 }
 .is-campaign-wrap .is-campaign-card .is-card-topbar .is-student-name {
-  font-size: 0.88rem;
-  color: #64748b;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+.is-campaign-wrap .is-campaign-card .is-card-body {
+  padding: 1.75rem 2.5rem 2.5rem;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-header {
+  margin-top: 2rem;
   margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #dddddd;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-header h2 {
   margin: 0 0 0.5rem;
-  color: #1e293b;
-  font-size: 1.4rem;
+  color: #161616;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-header .is-campaign-desc {
-  color: #64748b;
+  color: #666666;
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
+}
+.is-campaign-wrap .is-campaign-card .is-recap {
+  margin-bottom: 2rem;
 }
 .is-campaign-wrap .is-campaign-card .is-recap h3 {
   margin: 0 0 1rem;
-  color: #1e293b;
-  font-size: 1.05rem;
+  color: #003189;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
 }
 .is-campaign-wrap .is-campaign-card .is-recap .is-recap-list {
   margin: 0 0 1.5rem;
-  padding-left: 1.5rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: recap-counter;
 }
 .is-campaign-wrap .is-campaign-card .is-recap .is-recap-list li {
-  padding: 0.55rem 0;
-  color: #1e293b;
-  font-size: 0.95rem;
-  border-bottom: 1px solid #e2e8f0;
+  counter-increment: recap-counter;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  color: #161616;
+  font-size: 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid #dddddd;
+}
+.is-campaign-wrap .is-campaign-card .is-recap .is-recap-list li::before {
+  content: counter(recap-counter);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  background: #003189;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 .is-campaign-wrap .is-campaign-card .is-recap .is-recap-list li:last-child {
   border-bottom: none;
 }
+.is-campaign-wrap .is-campaign-card .is-campaign-form {
+  margin-top: 1.5rem;
+  padding-bottom: 2rem;
+}
 .is-campaign-wrap .is-campaign-card .is-campaign-form .is-select-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-form .is-select-group label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #161616;
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-form .is-select-group label .is-step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #003189;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-form .is-select-group select {
   width: 100%;
-  padding: 0.6rem 2rem 0.6rem 0.75rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  color: #1e293b;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 2px solid #dddddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: "Marianne", Arial, sans-serif;
+  color: #161616;
   background-color: #fff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%2364748b' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%23666' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.75rem center;
+  background-position: right 0.875rem center;
   appearance: none;
   cursor: pointer;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
+.is-campaign-wrap .is-campaign-card .is-campaign-form .is-select-group select:hover:not(:disabled) {
+  border-color: #999;
+}
 .is-campaign-wrap .is-campaign-card .is-campaign-form .is-select-group select:focus {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
-  border-color: #2563eb;
+  outline: none;
+  border-color: #0a76f6;
+  box-shadow: 0 0 0 2px rgba(10, 118, 246, 0.2);
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-form .is-select-group select:disabled {
-  background-color: #f8fafc;
-  color: #64748b;
+  background-color: #f8f8f8;
+  color: #aaa;
+  border-color: #dddddd;
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 1;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-form .is-form-actions {
-  margin-top: 1.75rem;
+  margin-top: 2rem;
 }
 .is-campaign-wrap .is-campaign-card .is-message {
   margin-top: 1rem;
-  font-size: 0.9rem;
+  padding: 0.7rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
   display: none;
+  border-left: 4px solid transparent;
 }
 .is-campaign-wrap .is-campaign-card .is-message.is-message--success {
-  color: #16a34a;
+  background: #dffee9;
+  color: #18753c;
+  border-left-color: #18753c;
   display: block;
 }
 .is-campaign-wrap .is-campaign-card .is-message.is-message--error {
-  color: #dc2626;
+  background: #fff0f0;
+  color: #ce0500;
+  border-left-color: #ce0500;
   display: block;
 }
 .is-campaign-wrap .is-campaign-card .is-no-campaign {
   text-align: center;
-  color: #64748b;
-  padding: 2rem 0;
+  color: #666666;
+  padding: 3rem 0;
+  font-size: 0.95rem;
 }
 .is-campaign-wrap .is-campaign-card .is-list-title {
   margin: 0 0 1.5rem;
-  color: #1e293b;
+  color: #161616;
   font-size: 1.4rem;
+  font-weight: 700;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-items {
   list-style: none;
-  margin: 0;
+  margin: 0 0 2rem;
   padding: 0;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0.75rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  margin-bottom: 0.75rem;
+  padding: 1.25rem 1rem;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #dddddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
   text-decoration: none;
   color: inherit;
   transition: all 0.2s ease;
+  background: #fff;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item:last-child {
   margin-bottom: 0;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item:hover {
-  background: #f8fafc;
-  border-color: #2563eb;
+  border-left-color: #003189;
+  background: #f5f7ff;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item:hover .is-campaign-item__arrow {
-  color: #2563eb;
+  color: #003189;
   transform: translateX(4px);
+}
+.is-campaign-wrap .is-campaign-card .is-campaign-item:hover .is-campaign-item__name {
+  color: #0063cb;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item__info {
   display: flex;
@@ -154,17 +231,18 @@
   gap: 0.2rem;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item__name {
-  font-weight: 600;
-  color: #1e293b;
-  font-size: 0.95rem;
+  font-weight: 700;
+  color: #161616;
+  font-size: 1.05rem;
+  transition: color 0.15s;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item__desc {
-  font-size: 0.85rem;
-  color: #64748b;
+  font-size: 0.95rem;
+  color: #666666;
 }
 .is-campaign-wrap .is-campaign-card .is-campaign-item__arrow {
   font-size: 1.1rem;
-  color: #64748b;
+  color: #666666;
   transition: all 0.2s ease;
   flex-shrink: 0;
   margin-left: 1rem;
@@ -172,9 +250,10 @@
 .is-campaign-wrap .is-campaign-card .is-btn {
   display: inline-block;
   padding: 0.65rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 0.95rem;
-  font-family: inherit;
+  font-family: "Marianne", Arial, sans-serif;
+  font-weight: 700;
   cursor: pointer;
   border: none;
   transition: all 0.2s ease;
@@ -182,39 +261,48 @@
   text-decoration: none;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--primary {
-  background: #2563eb;
+  background: #003189;
   color: #fff;
   width: 100%;
   box-sizing: border-box;
+  padding: 0.8rem;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--primary:hover {
-  background: #1350d4;
+  background: #002260;
+}
+.is-campaign-wrap .is-campaign-card .is-btn--primary:focus-visible {
+  outline: 2px solid #0a76f6;
+  outline-offset: 2px;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--primary:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--outline {
   background: transparent;
-  color: #2563eb;
-  border: 2px solid #2563eb;
+  color: #003189;
+  border: 2px solid #003189;
   font-size: 0.875rem;
-  padding: 0.45rem 1.2rem;
+  padding: 0.5rem 1.25rem;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--outline:hover {
-  background: #2563eb;
+  background: #003189;
   color: #fff;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--logout {
   background: none;
-  border: 1px solid #dc2626;
-  color: #dc2626;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
   font-size: 0.8rem;
+  font-weight: 600;
   padding: 0.3rem 0.85rem;
+  border-radius: 3px;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--logout:hover {
-  background: #dc2626;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--logout:disabled {
   opacity: 0.5;
@@ -223,60 +311,85 @@
 .is-campaign-wrap .is-campaign-card .is-btn--back {
   background: none;
   border: none;
-  color: #64748b;
+  color: #0063cb;
   font-size: 0.875rem;
+  font-weight: 600;
   padding: 0;
-  margin-bottom: 1.25rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: inherit;
-  display: inline-block;
+  font-family: "Marianne", Arial, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   text-decoration: none;
 }
 .is-campaign-wrap .is-campaign-card .is-btn--back:hover {
-  color: #2563eb;
-}
-.is-campaign-wrap .is-campaign-card .is-hidden {
-  display: none !important;
+  color: #00458e;
+  text-decoration: underline;
 }
 .is-campaign-wrap .is-campaign-card .is-confirmation {
   text-align: center;
-  padding: 1rem 0 0.5rem;
+  padding: 2.5rem 0;
 }
 .is-campaign-wrap .is-campaign-card .is-confirmation__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: #16a34a;
+  background: #18753c;
   color: #fff;
-  font-size: 1.75rem;
-  margin-bottom: 1.25rem;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
 }
 .is-campaign-wrap .is-campaign-card .is-confirmation__title {
-  margin: 0 0 0.5rem;
-  color: #1e293b;
-  font-size: 1.3rem;
+  margin: 0 0 0.6rem;
+  color: #161616;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 .is-campaign-wrap .is-campaign-card .is-confirmation__subtitle {
-  color: #64748b;
-  font-size: 0.92rem;
-  margin: 0 0 1.75rem;
+  color: #666666;
+  font-size: 1rem;
+  margin: 0 0 2.5rem;
 }
 .is-campaign-wrap .is-campaign-card .is-confirmation__list {
   text-align: left;
-  margin: 0 auto 2rem;
-  max-width: 380px;
-  padding-left: 1.5rem;
+  margin: 0 auto 2.5rem;
+  max-width: 420px;
+  padding: 0;
+  list-style: none;
+  counter-reset: confirm-counter;
 }
 .is-campaign-wrap .is-campaign-card .is-confirmation__list li {
-  padding: 0.6rem 0;
-  color: #1e293b;
-  font-size: 0.95rem;
-  border-bottom: 1px solid #e2e8f0;
+  counter-increment: confirm-counter;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  color: #161616;
+  font-size: 1rem;
+  border-bottom: 1px solid #dddddd;
+}
+.is-campaign-wrap .is-campaign-card .is-confirmation__list li::before {
+  content: counter(confirm-counter);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  background: #18753c;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.78rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 .is-campaign-wrap .is-campaign-card .is-confirmation__list li:last-child {
   border-bottom: none;
+}
+.is-campaign-wrap .is-campaign-card .is-hidden {
+  display: none !important;
 }

@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Vue back-office : gestion des formations.
+ *
+ * Affiche la liste de toutes les formations (actives et archivées)
+ * et permet de les créer / modifier / supprimer.
+ *
+ * Une formation est indépendante d'une campagne ; elle peut être
+ * associée à plusieurs campagnes via la table asso_campaign_choice.
+ *
+ * Interact avec le back-end via InssetSup_Actions_Admin_Choice (AJAX).
+ */
+
 class InssetSup_View_Choices {
 
     public function render() {

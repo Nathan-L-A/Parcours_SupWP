@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Gestionnaire AJAX de l'authentification étudiante.
+ *
+ * Les étudiants ne sont PAS des utilisateurs WordPress : l'authentification
+ * repose sur une session PHP native et une table dédiée (wp_inssetsup_student).
+ *
+ * Les hooks sont enregistrés en nopriv (visiteurs non connectés) ET en
+ * wp_ajax (utilisateurs WP connectés) pour couvrir tous les cas.
+ */
+
 add_action('wp_ajax_nopriv_inssetsup_login',    array('InssetSup_Actions_Auth', 'login'));
 add_action('wp_ajax_inssetsup_login',            array('InssetSup_Actions_Auth', 'login'));
 add_action('wp_ajax_nopriv_inssetsup_register',  array('InssetSup_Actions_Auth', 'register'));

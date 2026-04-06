@@ -1,7 +1,27 @@
 <?php
 
+/**
+ * Installation du plugin : création des tables DB et des pages WordPress.
+ *
+ * Exécuté une seule fois lors de l'activation du plugin via le hook
+ * register_activation_hook défini dans inssetsup.php.
+ *
+ * Tables créées (avec le préfixe wp_inssetsup_) :
+ *   - student               : comptes étudiants
+ *   - campaign              : campagnes d'orientation
+ *   - choice                : formations disponibles
+ *   - student_choice        : vœux ordonnés d'un étudiant
+ *   - student_to_campaign   : liaison étudiant ↔ campagne
+ *   - asso_campaign_choice  : liaison N-N campagne ↔ formations
+ */
+
 class InssetSup_Install_Index {
 
+    /**
+     * Point d'entrée de l'installation.
+     * Appelle dbDelta() pour créer ou mettre à jour les tables,
+     * puis initialise les pages WordPress nécessaires.
+     */
     public function setup() {
 
         global $wpdb;
@@ -87,6 +107,10 @@ class InssetSup_Install_Index {
 
     }
 
+    /**
+     * Crée la page d'accueil (shortcode [inssetsup_auth]) si elle n'existe pas,
+     * puis la définit comme page statique de démarrage dans WordPress.
+     */
     private function setup_front_page() {
 
         // Vérifie si la page d'accueil existe déjà
@@ -120,6 +144,11 @@ class InssetSup_Install_Index {
 
     }
 
+    /**
+     * Crée la page "/campagne/" (shortcode [inssetsup_campagne]) si elle n'existe pas.
+     * L'ID est enregistré dans les options WP pour éviter de redétecter la page
+     * à chaque chargement.
+     */
     private function setup_campaign_page() {
         if (get_option('inssetsup_campaign_page_id'))
             return;

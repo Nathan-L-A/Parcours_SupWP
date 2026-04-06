@@ -1,82 +1,123 @@
+﻿// =============================================
+// Parcoursup-inspired design — Login / Register
+// Police : Marianne (gov.fr) > Arial > sans-serif
 // =============================================
-// Variables
-// =============================================
-@primary:      #2563eb;
-@primary-dark: darken(@primary, 8%);
-@danger:       #dc2626;
-@bg:           #f1f5f9;
-@card-bg:      #ffffff;
-@text:         #1e293b;
-@muted:        #64748b;
-@border:       #e2e8f0;
-@radius:       8px;
-@transition:   all 0.2s ease;
 
-// =============================================
-// Mixins
-// =============================================
-.flex-center() {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+@primary:  #003189;   // bleu Parcoursup fonce
+@action:   #0063cb;   // bleu bouton/lien actif
+@danger:   #ce0500;   // rouge erreur gov
+@success:  #18753c;   // vert succes gov
+@bg:       #f0f0f0;   // gris clair gov
+@card-bg:  #ffffff;
+@text:     #161616;
+@muted:    #666666;
+@border:   #dddddd;
+@focus:    #0a76f6;
+@radius:   4px;
+@transition: all 0.2s ease;
+@font:     "Marianne", Arial, sans-serif;
 
 // =============================================
 // Auth wrapper
 // =============================================
 .inssetsup-auth-wrap {
-    .flex-center();
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     min-height: 80vh;
     background: @bg;
+    padding: 3rem 1rem;
+    font-family: @font;
+    font-weight: 600;
 
     .auth-card {
         background: @card-bg;
         border-radius: @radius;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
         width: 100%;
-        max-width: 420px;
-        padding: 2.5rem;
+        max-width: 480px;
+        border-top: 4px solid @primary;
 
-        h2 {
+        // -- En-tete carte
+        &__header {
+            padding: 2.5rem 2.5rem 0;
             text-align: center;
-            margin: 0 0 1.5rem;
-            color: @text;
-            font-size: 1.4rem;
+
+            .auth-logo {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 1.25rem;
+
+                &__badge {
+                    background: @primary;
+                    color: #fff;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    letter-spacing: 0.05em;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 3px;
+                    text-transform: uppercase;
+                }
+
+                &__text {
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    color: @primary;
+                }
+            }
+
+            h2 {
+                margin: 0;
+                color: @text;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
         }
 
-        // ── Tabs ──────────────────────────────
+        // -- Corps carte
+        &__body {
+            padding: 2rem 2.5rem 2.5rem;
+        }
+
+        // -- Tabs
         .auth-tabs {
             display: flex;
             border-bottom: 2px solid @border;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
 
             .tab-btn {
                 flex: 1;
                 background: none;
                 border: none;
-                padding: 0.75rem;
+                padding: 0.85rem 0;
                 cursor: pointer;
-                font-size: 0.95rem;
+                font-size: 1rem;
+                font-family: @font;
                 color: @muted;
-                border-bottom: 2px solid transparent;
+                border-bottom: 3px solid transparent;
                 margin-bottom: -2px;
                 transition: @transition;
-                font-family: inherit;
+                font-weight: 500;
 
                 &.active {
                     color: @primary;
                     border-bottom-color: @primary;
-                    font-weight: 600;
+                    font-weight: 700;
                 }
 
                 &:focus-visible {
-                    outline: 2px solid @primary;
+                    outline: 2px solid @focus;
                     outline-offset: 2px;
+                }
+
+                &:hover:not(.active) {
+                    color: @action;
                 }
             }
         }
 
-        // ── Forms ─────────────────────────────
+        // -- Formulaires
         .auth-form {
             display: none;
 
@@ -85,85 +126,103 @@
             }
 
             .form-group {
-                margin-bottom: 1rem;
+                margin-bottom: 1.75rem;
 
                 label {
                     display: block;
-                    font-size: 0.875rem;
-                    font-weight: 500;
+                    font-size: 1rem;
+                    font-weight: 600;
                     color: @text;
-                    margin-bottom: 0.35rem;
+                    margin-bottom: 0.4rem;
+                    font-family: @font;
 
                     span {
                         color: @muted;
                         font-weight: 400;
+                        font-size: 0.82rem;
                     }
                 }
 
                 input {
                     width: 100%;
-                    padding: 0.625rem 0.875rem;
-                    border: 1px solid @border;
-                    border-radius: (@radius - 2px);
-                    font-size: 0.95rem;
+                    padding: 0.75rem 1rem;
+                    border: 2px solid @border;
+                    border-radius: @radius;
+                    font-size: 1rem;
+                    font-weight: 600;
                     box-sizing: border-box;
                     transition: @transition;
                     outline: none;
                     color: @text;
-                    font-family: inherit;
+                    font-family: @font;
+                    background: #fff;
+
+                    &:hover {
+                        border-color: #999;
+                    }
 
                     &:focus {
-                        border-color: @primary;
-                        box-shadow: 0 0 0 3px fade(@primary, 15%);
+                        border-color: @focus;
+                        box-shadow: 0 0 0 2px fade(@focus, 20%);
                     }
 
                     &::placeholder {
-                        color: lighten(@muted, 15%);
+                        color: #aaa;
                     }
                 }
             }
 
             .btn-submit {
                 width: 100%;
-                padding: 0.75rem;
+                padding: 0.9rem;
                 background: @primary;
                 color: #fff;
                 border: none;
-                border-radius: (@radius - 2px);
-                font-size: 1rem;
-                font-weight: 600;
+                border-radius: @radius;
+                font-size: 1.05rem;
+                font-weight: 700;
                 cursor: pointer;
                 transition: @transition;
-                margin-top: 0.5rem;
-                font-family: inherit;
+                margin-top: 0.25rem;
+                font-family: @font;
+                letter-spacing: 0.01em;
 
                 &:hover {
-                    background: @primary-dark;
+                    background: darken(@primary, 8%);
+                }
+
+                &:focus-visible {
+                    outline: 2px solid @focus;
+                    outline-offset: 2px;
                 }
 
                 &:disabled {
-                    opacity: 0.65;
+                    opacity: 0.6;
                     cursor: not-allowed;
                 }
             }
 
-            // ── Feedback messages ──────────────
+            // -- Messages
             .auth-message {
-                margin-top: 0.75rem;
-                padding: 0.625rem 0.875rem;
-                border-radius: (@radius - 2px);
+                margin-top: 1rem;
+                padding: 0.7rem 1rem;
+                border-radius: @radius;
                 font-size: 0.875rem;
+                font-family: @font;
                 display: none;
+                border-left: 4px solid transparent;
 
                 &.success {
-                    background: #dcfce7;
-                    color: #166534;
+                    background: #dffee9;
+                    color: @success;
+                    border-left-color: @success;
                     display: block;
                 }
 
                 &.error {
-                    background: #fee2e2;
+                    background: #fff0f0;
                     color: @danger;
+                    border-left-color: @danger;
                     display: block;
                 }
             }

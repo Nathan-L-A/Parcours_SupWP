@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Vue back-office : gestion des campagnes d'orientation.
+ *
+ * Affiche la liste des campagnes avec leur statut (active/inactive),
+ * le nombre d'étudiants inscrits, les dates et les formations associées.
+ * Permet : création, modification, suppression (protégée si des vœux existent).
+ *
+ * Interact avec le back-end via InssetSup_Actions_Admin_Campaign (AJAX).
+ */
+
 class InssetSup_View_Campaigns {
 
     public function render() {

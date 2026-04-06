@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Gestionnaire AJAX de la soumission des vœux étudiants.
+ *
+ * Reçoit les 3 choix de l'étudiant, valide qu'ils appartiennent bien
+ * à la campagne demandée, puis délègue la persistance au CRUD.
+ *
+ * Note : session_start() est appelé en début de méthode car admin-ajax.php
+ * n'exécute pas InssetSup_Main_Front (qui démarre normalement la session).
+ */
+
 // Les étudiants ne sont pas des utilisateurs WordPress : on déclare les deux hooks.
 add_action('wp_ajax_inssetsup_save_choices',        array('InssetSup_Actions_StudentChoice', 'save_choices'));
 add_action('wp_ajax_nopriv_inssetsup_save_choices',  array('InssetSup_Actions_StudentChoice', 'save_choices'));

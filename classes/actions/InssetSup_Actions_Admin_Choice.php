@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Gestionnaire AJAX des formations pour le back-office.
+ *
+ * Une "formation" (choice) est la brique de base que l'administrateur crée
+ * et associe ensuite aux campagnes d'orientation.
+ */
+
 add_action('wp_ajax_inssetsup_choice_save',   array('InssetSup_Actions_Admin_Choice', 'save'));
 add_action('wp_ajax_inssetsup_choice_delete', array('InssetSup_Actions_Admin_Choice', 'delete'));
 add_action('wp_ajax_inssetsup_choice_get',    array('InssetSup_Actions_Admin_Choice', 'get'));

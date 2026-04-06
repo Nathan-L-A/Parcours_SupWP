@@ -1,13 +1,28 @@
 <?php
 
+/**
+ * Contrôleur principal du back-office WordPress.
+ *
+ * Enregistre les menus d'administration, charge les assets (CSS/JS + nonce AJAX)
+ * et délègue l'affichage des pages aux vues dédiées.
+ *
+ * Pages gérées :
+ *   - InssetSup → Formations  (menu principal)
+ *   - InssetSup → Campagnes   (sous-menu)
+ */
+
 class InssetSup_Main_Admin {
 
     public function __construct() {
-        add_action('admin_menu', array($this, 'register_menus'));
+        add_action('admin_menu',            array($this, 'register_menus'));
         add_action('admin_enqueue_scripts', array($this, 'assets'));
-        add_action('current_screen', array($this, 'remove_theme_notices'));
+        add_action('current_screen',        array($this, 'remove_theme_notices'));
     }
 
+    /**
+     * Supprime les notices parasites du thème Kadence sur les pages InssetSup.
+     * Ces notices (« activer la licence », etc.) polluent l'interface admin.
+     */
     public function remove_theme_notices() {
         $screen = get_current_screen();
         if (!$screen || strpos($screen->id, 'inssetsup') === false)
@@ -62,6 +77,12 @@ class InssetSup_Main_Admin {
         );
     }
 
+    /**
+     * Charge CSS et JS admin uniquement sur les pages InssetSup.
+     * Injecte 'InssetsupAdmin' (ajax_url + nonce) pour les appels AJAX.
+     *
+     * @param string $hook  Identifiant de la page admin courante.
+     */
     public function assets($hook) {
         if (strpos($hook, 'inssetsup') === false)
             return;

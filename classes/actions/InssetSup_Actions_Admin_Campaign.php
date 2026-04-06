@@ -1,11 +1,24 @@
 <?php
 
+/**
+ * Gestionnaire AJAX des campagnes pour le back-office.
+ *
+ * Toutes les actions sont réservées aux administrateurs WordPress (manage_options).
+ * Les hooks sont déclarés en dehors de la classe pour être enregistrés
+ * dès le chargement du fichier par l'autoloader.
+ */
+
 add_action('wp_ajax_inssetsup_campaign_save',   array('InssetSup_Actions_Admin_Campaign', 'save'));
 add_action('wp_ajax_inssetsup_campaign_delete', array('InssetSup_Actions_Admin_Campaign', 'delete'));
 add_action('wp_ajax_inssetsup_campaign_get',    array('InssetSup_Actions_Admin_Campaign', 'get'));
 
 class InssetSup_Actions_Admin_Campaign {
 
+    /**
+     * Crée ou met à jour une campagne.
+     * Si $_POST['id_campaign'] est fourni → mise à jour, sinon → création.
+     * Synchronise également la liste des formations associées.
+     */
     public static function save() {
         check_ajax_referer('inssetsup_admin_nonce', 'nonce');
         if (!current_user_can('manage_options'))
@@ -34,6 +47,11 @@ class InssetSup_Actions_Admin_Campaign {
         wp_send_json_success();
     }
 
+    /**
+     * Supprime une campagne.
+     * La suppression est bloquée si des étudiants ont déjà soumis des vœux
+     * (protection assurée par InssetSup_Crud_Campaign::delete).
+     */
     public static function delete() {
         check_ajax_referer('inssetsup_admin_nonce', 'nonce');
         if (!current_user_can('manage_options'))
@@ -51,6 +69,10 @@ class InssetSup_Actions_Admin_Campaign {
         wp_send_json_success();
     }
 
+    /**
+     * Retourne les données d'une campagne (nom, dates, statut) + les IDs
+     * de ses formations pour pré-remplir le formulaire d'édition.
+     */
     public static function get() {
         check_ajax_referer('inssetsup_admin_nonce', 'nonce');
         if (!current_user_can('manage_options'))

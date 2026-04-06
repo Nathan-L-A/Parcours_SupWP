@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * CRUD des campagnes d'orientation.
+ *
+ * Une campagne regroupe un ensemble de formations (choices) parmi lesquelles
+ * les étudiants formulent leurs vœux. Elle peut être activée/désactivée
+ * et possède des dates de début / fin optionnelles.
+ *
+ * Tables utilisées :
+ *   - wp_inssetsup_campaign              : données de la campagne
+ *   - wp_inssetsup_asso_campaign_choice  : liaison N-N campagne ↔ formations
+ *   - wp_inssetsup_student_to_campaign   : liaison étudiant ↔ campagne (pour
+ *                                          vérifier si une suppression est possible)
+ */
+
 class InssetSup_Crud_Campaign {
 
     private static function table() {
@@ -114,6 +128,13 @@ class InssetSup_Crud_Campaign {
         return $wpdb->delete(self::table(), array('id_campaign' => $id), array('%s'));
     }
 
+    /**
+     * Synchronise la table d'association campaign ↔ choices.
+     * Supprime toutes les liaisons existantes puis reinsère les nouvelles.
+     *
+     * @param string   $campaign_id  Identifiant de la campagne.
+     * @param string[] $choice_ids   IDs des formations à associer.
+     */
     private static function sync_choices($campaign_id, $choice_ids) {
         global $wpdb;
         $t = self::table_asso();

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * CRUD des formations (appelées "choices" en base).
+ *
+ * Une formation est une filière / établissement que l'administrateur crée
+ * indépendamment, puis associe à une ou plusieurs campagnes.
+ *
+ * Table utilisée : wp_inssetsup_choice
+ */
+
 class InssetSup_Crud_Choice {
 
     private static function table() {

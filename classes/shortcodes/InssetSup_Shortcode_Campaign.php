@@ -1,7 +1,24 @@
 ﻿<?php
 
+/**
+ * Shortcode [inssetsup_campagne] — Page principale de l'étudiant.
+ *
+ * Routage basé sur les paramètres GET :
+ *   - Aucun paramètre           → render_list()         : liste des campagnes actives
+ *   - ?campaign_id=XXX          → render_form()         : formulaire des 3 vœux
+ *   - ?campaign_id=XXX&confirmed=1 → render_confirmation() : page de confirmation finale
+ *
+ * Les vœux sont sauvegardés en AJAX par InssetSup_Actions_StudentChoice.
+ * PHP pré-remplit toutes les options des selects — le JS gère uniquement
+ * les états disabled/enabled sans dépendre d'un tableau de données JS.
+ */
+
 class InssetSup_Shortcode_Campaign {
 
+    /**
+     * Point d'entrée du shortcode. Vérifie la connexion étudiant
+     * puis route vers la bonne vue.
+     */
     public static function render() {
 
         if (!InssetSup_Helper_Auth::is_student_logged_in()) {
@@ -59,8 +76,10 @@ class InssetSup_Shortcode_Campaign {
             <div class="is-campaign-wrap">
                 <div class="is-campaign-card">
                     <?php echo self::render_topbar(); ?>
-                    <div class="is-no-campaign">
-                        <p>Aucune campagne disponible pour le moment. Revenez plus tard.</p>
+                    <div class="is-card-body">
+                        <div class="is-no-campaign">
+                            <p>Aucune campagne disponible pour le moment. Revenez plus tard.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,25 +90,27 @@ class InssetSup_Shortcode_Campaign {
         <div class="is-campaign-wrap">
             <div class="is-campaign-card">
                 <?php echo self::render_topbar(); ?>
-                <h2 class="is-list-title">Campagnes disponibles</h2>
-                <ul class="is-campaign-items">
-                    <?php foreach ($campaigns as $camp): ?>
-                    <li>
-                        <a
-                            class="is-campaign-item"
-                            href="<?php echo esc_url(add_query_arg('campaign_id', $camp->id_campaign, get_permalink())); ?>"
-                        >
-                            <div class="is-campaign-item__info">
-                                <span class="is-campaign-item__name"><?php echo esc_html($camp->name_campaign); ?></span>
-                                <?php if (!empty($camp->desc_campaign)): ?>
-                                <span class="is-campaign-item__desc"><?php echo esc_html($camp->desc_campaign); ?></span>
-                                <?php endif; ?>
-                            </div>
-                            <span class="is-campaign-item__arrow">→</span>
-                        </a>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
+                <div class="is-card-body">
+                    <h2 class="is-list-title">Campagnes disponibles</h2>
+                    <ul class="is-campaign-items">
+                        <?php foreach ($campaigns as $camp): ?>
+                        <li>
+                            <a
+                                class="is-campaign-item"
+                                href="<?php echo esc_url(add_query_arg('campaign_id', $camp->id_campaign, get_permalink())); ?>"
+                            >
+                                <div class="is-campaign-item__info">
+                                    <span class="is-campaign-item__name"><?php echo esc_html($camp->name_campaign); ?></span>
+                                    <?php if (!empty($camp->desc_campaign)): ?>
+                                    <span class="is-campaign-item__desc"><?php echo esc_html($camp->desc_campaign); ?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <span class="is-campaign-item__arrow">→</span>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
         </div>
         <?php
@@ -134,6 +155,7 @@ class InssetSup_Shortcode_Campaign {
 
                 <?php echo self::render_topbar(); ?>
 
+                <div class="is-card-body">
                 <div class="is-confirmation">
                     <div class="is-confirmation__icon">✓</div>
                     <h2 class="is-confirmation__title">Vos choix ont été enregistrés&nbsp;!</h2>
@@ -150,6 +172,7 @@ class InssetSup_Shortcode_Campaign {
                     <a href="<?php echo esc_url($back_url); ?>" class="is-btn is-btn--outline">
                         ← Retour aux campagnes
                     </a>
+                </div>
                 </div>
 
             </div>
@@ -190,9 +213,9 @@ class InssetSup_Shortcode_Campaign {
             $defaults[(int) $ch->choice_order] = $ch->id_choice;
 
         $labels = array(
-            1 => '1<sup>er</sup> choix',
-            2 => '2<sup>ème</sup> choix',
-            3 => '3<sup>ème</sup> choix',
+            1 => '<span class="is-step-badge">1</span> 1<sup>er</sup> choix',
+            2 => '<span class="is-step-badge">2</span> 2<sup>ème</sup> choix',
+            3 => '<span class="is-step-badge">3</span> 3<sup>ème</sup> choix',
         );
 
         $back_url = remove_query_arg('campaign_id');
@@ -203,6 +226,7 @@ class InssetSup_Shortcode_Campaign {
             <div class="is-campaign-card">
 
                 <?php echo self::render_topbar(); ?>
+                <div class="is-card-body">
                 <a href="<?php echo esc_url($back_url); ?>" class="is-btn is-btn--back">← Retour aux campagnes</a>
 
                 <div class="is-campaign-header">
@@ -257,6 +281,7 @@ class InssetSup_Shortcode_Campaign {
                     </div>
                     <div id="is-campaign-message" class="is-message"></div>
                 </form>
+                </div>
 
             </div>
         </div>

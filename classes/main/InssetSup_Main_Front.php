@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Contrôleur principal du site public (pages étudiants).
+ *
+ * Responsabilités :
+ *   - Démarrer la session PHP native (nécessaire pour l'auth étudiant).
+ *   - Enregistrer les shortcodes [inssetsup_auth] et [inssetsup_campagne].
+ *   - Charger les assets CSS/JS et injecter les variables JS via wp_localize_script.
+ *   - Rediriger les visiteurs non connectés hors de la page d'accueil.
+ *   - Créer la page "/campagne/" si elle n'existe pas encore.
+ */
+
 class InssetSup_Main_Front {
 
     public function __construct() {
@@ -42,6 +53,10 @@ class InssetSup_Main_Front {
         }
     }
 
+    /**
+     * Redirige tout visiteur non connecté vers l'accueil (page de login),
+     * sauf si on est déjà sur la page d'accueil ou dans une requête AJAX.
+     */
     public function auth_redirect() {
         if (wp_doing_ajax())
             return;
@@ -56,6 +71,16 @@ class InssetSup_Main_Front {
         exit;
     }
 
+    /**
+     * Enqueue CSS et JS publics.
+     *
+     * - login.css / login.js    : page d'authentification (toujours chargés)
+     * - campaign.css / .js      : page campagne
+     *
+     * Les formations de la campagne courante sont injectées dans InssetsupCampaign
+     * uniquement si GET campaign_id est présent ET que l'étudiant est connecté,
+     * afin d'éviter une requête inutile sur la liste des campagnes.
+     */
     public function assets() {
         $base = 'InssetSup';
 

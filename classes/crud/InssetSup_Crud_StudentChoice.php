@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * CRUD des vœux étudiants.
+ *
+ * Centralise toutes les requêtes liées aux choix des étudiants :
+ *   - récupération des campagnes éligibles
+ *   - liaison étudiant ↔ campagne (student_to_campaign)
+ *   - lecture et sauvegarde des 3 vœux ordonnés
+ *
+ * Tables utilisées :
+ *   - wp_inssetsup_campaign              : données des campagnes
+ *   - wp_inssetsup_asso_campaign_choice  : formations associées à une campagne
+ *   - wp_inssetsup_choice                : détail des formations
+ *   - wp_inssetsup_student_to_campaign   : lien étudiant ↔ campagne
+ *   - wp_inssetsup_student_choice        : vœux ordonnés de l'étudiant
+ */
+
 class InssetSup_Crud_StudentChoice {
 
     private static function table($name) {

@@ -1,6 +1,23 @@
 ﻿(function ($) {
     "use strict";
 
+    /**
+     * campaign.js — Logique cliente de la page campagne étudiant.
+     *
+     * Responsabilités :
+     *   - Cascade des 3 selects : active le select suivant uniquement quand
+     *     le précédent est rempli, et désactive les options déjà choisies.
+     *     Les options sont pré-rendues par PHP — ce fichier ne les crée pas.
+     *   - Soumission AJAX des 3 vœux → redirection vers ?confirmed=1 si OK.
+     *   - Bouton Déconnexion (présent sur toutes les vues).
+     *
+     * Variables injectées par PHP via wp_localize_script :
+     *   InssetsupCampaign.ajax_url   — URL admin-ajax.php
+     *   InssetsupCampaign.nonce      — nonce inssetsup_campaign_nonce
+     *   InssetsupCampaign.campaign_id
+     *   InssetsupAuth.ajax_url / .nonce — pour le logout
+     */
+
     var campaignId = (typeof InssetsupCampaign !== "undefined") ? InssetsupCampaign.campaign_id : "";
 
     function updateSelects() {

@@ -1,86 +1,131 @@
+﻿// =============================================
+// Parcoursup-inspired design — Campaign
+// Police : Marianne (gov.fr) > Arial > sans-serif
 // =============================================
-// Variables
-// =============================================
-@primary:      #2563eb;
-@primary-dark: darken(@primary, 8%);
-@success:      #16a34a;
-@danger:       #dc2626;
-@bg:           #f1f5f9;
-@card-bg:      #ffffff;
-@text:         #1e293b;
-@muted:        #64748b;
-@border:       #e2e8f0;
-@radius:       8px;
-@transition:   all 0.2s ease;
+
+@primary:    #003189;   // bleu Parcoursup fonce
+@action:     #0063cb;   // bleu bouton/lien actif
+@danger:     #ce0500;   // rouge erreur gov
+@success:    #18753c;   // vert succes gov
+@warning:    #b34000;   // orange avertissement
+@bg:         #f0f0f0;   // gris clair gov
+@card-bg:    #ffffff;
+@text:       #161616;
+@muted:      #666666;
+@border:     #dddddd;
+@focus:      #0a76f6;
+@radius:     4px;
+@transition: all 0.2s ease;
+@font:       "Marianne", Arial, sans-serif;
 
 // =============================================
-// Campaign wrapper
+// Wrapper principal
 // =============================================
 .is-campaign-wrap {
     display: flex;
     justify-content: center;
     min-height: 80vh;
     background: @bg;
-    padding: 2rem 1rem;
+    padding: 2.5rem 1rem;
+    font-family: @font;
+    font-weight: 600;
 
     .is-campaign-card {
         background: @card-bg;
         border-radius: @radius;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         width: 100%;
-        max-width: 560px;
-        padding: 2.5rem;
+        max-width: 640px;
         align-self: flex-start;
+        border-top: 4px solid @primary;
+        overflow: hidden;
 
-        // ── Topbar (nom étudiant + déconnexion) ──────────────
+        // -- Topbar (nom etudiant + deconnexion)
         .is-card-topbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid @border;
+            background: @primary;
+            padding: 0.65rem 1.5rem;
 
             .is-student-name {
-                font-size: 0.88rem;
-                color: @muted;
+                font-size: 0.875rem;
+                color: rgba(255, 255, 255, 0.9);
+                font-weight: 500;
             }
         }
 
-        // ── En-tête ──────────────────────────
+        // -- Corps de la carte
+        .is-card-body {
+            padding: 1.75rem 2.5rem 2.5rem;
+        }
+
+        // -- En-tete campagne
         .is-campaign-header {
+            margin-top: 2rem;
             margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid @border;
 
             h2 {
                 margin: 0 0 0.5rem;
                 color: @text;
-                font-size: 1.4rem;
+                font-size: 1.5rem;
+                font-weight: 700;
             }
 
             .is-campaign-desc {
                 color: @muted;
                 margin: 0;
-                font-size: 0.95rem;
+                font-size: 1rem;
             }
         }
 
-        // ── Récapitulatif ─────────────────────
+        // -- Recap des choix enregistres
         .is-recap {
+            margin-bottom: 2rem;
+
             h3 {
                 margin: 0 0 1rem;
-                color: @text;
-                font-size: 1.05rem;
+                color: @primary;
+                font-size: 1rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                font-size: 0.85rem;
             }
 
             .is-recap-list {
                 margin: 0 0 1.5rem;
-                padding-left: 1.5rem;
+                padding: 0;
+                list-style: none;
+                counter-reset: recap-counter;
 
                 li {
-                    padding: 0.55rem 0;
+                    counter-increment: recap-counter;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    padding: 1rem 0;
                     color: @text;
-                    font-size: 0.95rem;
+                    font-size: 1rem;
+                    font-weight: 600;
                     border-bottom: 1px solid @border;
+
+                    &::before {
+                        content: counter(recap-counter);
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: 26px;
+                        height: 26px;
+                        background: @primary;
+                        color: #fff;
+                        border-radius: 50%;
+                        font-size: 0.78rem;
+                        font-weight: 700;
+                        flex-shrink: 0;
+                    }
 
                     &:last-child {
                         border-bottom: none;
@@ -89,89 +134,125 @@
             }
         }
 
-        // ── Formulaire ────────────────────────
+        // -- Formulaire de choix
         .is-campaign-form {
+            margin-top: 1.5rem;
+            padding-bottom: 2rem;
+
             .is-select-group {
-                margin-bottom: 1.25rem;
+                margin-bottom: 2rem;
 
                 label {
-                    display: block;
-                    margin-bottom: 0.4rem;
-                    font-size: 0.9rem;
-                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.6rem;
+                    margin-bottom: 0.5rem;
+                    font-size: 1rem;
+                    font-weight: 700;
                     color: @text;
+
+                    .is-step-badge {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 22px;
+                        height: 22px;
+                        background: @primary;
+                        color: #fff;
+                        border-radius: 50%;
+                        font-size: 0.72rem;
+                        font-weight: 700;
+                        flex-shrink: 0;
+                    }
                 }
 
                 select {
                     width: 100%;
-                    padding: 0.6rem 2rem 0.6rem 0.75rem;
-                    border: 1px solid @border;
+                    padding: 0.75rem 2.5rem 0.75rem 1rem;
+                    border: 2px solid @border;
                     border-radius: @radius;
-                    font-size: 0.95rem;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    font-family: @font;
                     color: @text;
                     background-color: #fff;
-                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%2364748b' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath fill='none' stroke='%23666' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
                     background-repeat: no-repeat;
-                    background-position: right 0.75rem center;
+                    background-position: right 0.875rem center;
                     appearance: none;
                     cursor: pointer;
                     transition: @transition;
                     box-sizing: border-box;
 
+                    &:hover:not(:disabled) {
+                        border-color: #999;
+                    }
+
                     &:focus {
-                        outline: 2px solid @primary;
-                        outline-offset: 2px;
-                        border-color: @primary;
+                        outline: none;
+                        border-color: @focus;
+                        box-shadow: 0 0 0 2px fade(@focus, 20%);
                     }
 
                     &:disabled {
-                        background-color: #f8fafc;
-                        color: @muted;
+                        background-color: #f8f8f8;
+                        color: #aaa;
+                        border-color: @border;
                         cursor: not-allowed;
-                        opacity: 0.6;
+                        opacity: 1;
                     }
                 }
             }
 
             .is-form-actions {
-                margin-top: 1.75rem;
+                margin-top: 2rem;
             }
         }
 
-        // ── Message feedback ──────────────────
+        // -- Message feedback
         .is-message {
             margin-top: 1rem;
-            font-size: 0.9rem;
+            padding: 0.7rem 1rem;
+            border-radius: @radius;
+            font-size: 0.875rem;
             display: none;
+            border-left: 4px solid transparent;
 
             &.is-message--success {
+                background: #dffee9;
                 color: @success;
+                border-left-color: @success;
                 display: block;
             }
 
             &.is-message--error {
+                background: #fff0f0;
                 color: @danger;
+                border-left-color: @danger;
                 display: block;
             }
         }
 
-        // ── Aucune campagne ───────────────────
+        // -- Aucune campagne
         .is-no-campaign {
             text-align: center;
             color: @muted;
-            padding: 2rem 0;
+            padding: 3rem 0;
+            font-size: 0.95rem;
         }
 
-        // ── Liste des campagnes ───────────────
+        // -- Titre liste
         .is-list-title {
             margin: 0 0 1.5rem;
             color: @text;
             font-size: 1.4rem;
+            font-weight: 700;
         }
 
+        // -- Liste des campagnes
         .is-campaign-items {
             list-style: none;
-            margin: 0;
+            margin: 0 0 2rem;
             padding: 0;
         }
 
@@ -179,25 +260,31 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 0.75rem;
+            padding: 1.25rem 1rem;
             border: 1px solid @border;
+            border-left: 4px solid @border;
             border-radius: @radius;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             text-decoration: none;
             color: inherit;
             transition: @transition;
+            background: #fff;
 
             &:last-child {
                 margin-bottom: 0;
             }
 
             &:hover {
-                background: #f8fafc;
-                border-color: @primary;
+                border-left-color: @primary;
+                background: #f5f7ff;
 
                 .is-campaign-item__arrow {
                     color: @primary;
                     transform: translateX(4px);
+                }
+
+                .is-campaign-item__name {
+                    color: @action;
                 }
             }
 
@@ -208,13 +295,14 @@
             }
 
             &__name {
-                font-weight: 600;
+                font-weight: 700;
                 color: @text;
-                font-size: 0.95rem;
+                font-size: 1.05rem;
+                transition: color 0.15s;
             }
 
             &__desc {
-                font-size: 0.85rem;
+                font-size: 0.95rem;
                 color: @muted;
             }
 
@@ -227,13 +315,14 @@
             }
         }
 
-        // ── Boutons ───────────────────────────
+        // -- Boutons
         .is-btn {
             display: inline-block;
             padding: 0.65rem 1.5rem;
             border-radius: @radius;
             font-size: 0.95rem;
-            font-family: inherit;
+            font-family: @font;
+            font-weight: 700;
             cursor: pointer;
             border: none;
             transition: @transition;
@@ -245,13 +334,21 @@
                 color: #fff;
                 width: 100%;
                 box-sizing: border-box;
+                padding: 0.8rem;
+                font-size: 1rem;
+                letter-spacing: 0.01em;
 
                 &:hover {
-                    background: @primary-dark;
+                    background: darken(@primary, 8%);
+                }
+
+                &:focus-visible {
+                    outline: 2px solid @focus;
+                    outline-offset: 2px;
                 }
 
                 &:disabled {
-                    opacity: 0.6;
+                    opacity: 0.55;
                     cursor: not-allowed;
                 }
             }
@@ -261,7 +358,7 @@
                 color: @primary;
                 border: 2px solid @primary;
                 font-size: 0.875rem;
-                padding: 0.45rem 1.2rem;
+                padding: 0.5rem 1.25rem;
 
                 &:hover {
                     background: @primary;
@@ -271,14 +368,16 @@
 
             &--logout {
                 background: none;
-                border: 1px solid @danger;
-                color: @danger;
+                border: 1px solid rgba(255, 255, 255, 0.5);
+                color: #fff;
                 font-size: 0.8rem;
+                font-weight: 600;
                 padding: 0.3rem 0.85rem;
+                border-radius: 3px;
 
                 &:hover {
-                    background: @danger;
-                    color: #fff;
+                    background: rgba(255, 255, 255, 0.15);
+                    border-color: #fff;
                 }
 
                 &:disabled {
@@ -290,74 +389,100 @@
             &--back {
                 background: none;
                 border: none;
-                color: @muted;
+                color: @action;
                 font-size: 0.875rem;
+                font-weight: 600;
                 padding: 0;
-                margin-bottom: 1.25rem;
                 cursor: pointer;
                 transition: @transition;
-                font-family: inherit;
-                display: inline-block;
+                font-family: @font;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.3rem;
                 text-decoration: none;
 
                 &:hover {
-                    color: @primary;
+                    color: darken(@action, 12%);
+                    text-decoration: underline;
                 }
             }
         }
 
-        // ── Utilitaire ────────────────────────
-        .is-hidden {
-            display: none !important;
-        }
-
-        // ── Page de confirmation ──────────────
+        // -- Page de confirmation
         .is-confirmation {
             text-align: center;
-            padding: 1rem 0 0.5rem;
+            padding: 2.5rem 0;
 
             &__icon {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 56px;
-                height: 56px;
+                width: 64px;
+                height: 64px;
                 border-radius: 50%;
                 background: @success;
                 color: #fff;
-                font-size: 1.75rem;
-                margin-bottom: 1.25rem;
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
             }
 
             &__title {
-                margin: 0 0 0.5rem;
+                margin: 0 0 0.6rem;
                 color: @text;
-                font-size: 1.3rem;
+                font-size: 1.5rem;
+                font-weight: 700;
             }
 
             &__subtitle {
                 color: @muted;
-                font-size: 0.92rem;
-                margin: 0 0 1.75rem;
+                font-size: 1rem;
+                margin: 0 0 2.5rem;
             }
 
             &__list {
                 text-align: left;
-                margin: 0 auto 2rem;
-                max-width: 380px;
-                padding-left: 1.5rem;
+                margin: 0 auto 2.5rem;
+                max-width: 420px;
+                padding: 0;
+                list-style: none;
+                counter-reset: confirm-counter;
 
                 li {
-                    padding: 0.6rem 0;
+                    counter-increment: confirm-counter;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    padding: 1rem 0;
                     color: @text;
-                    font-size: 0.95rem;
+                    font-size: 1rem;
                     border-bottom: 1px solid @border;
+
+                    &::before {
+                        content: counter(confirm-counter);
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-width: 26px;
+                        height: 26px;
+                        background: @success;
+                        color: #fff;
+                        border-radius: 50%;
+                        font-size: 0.78rem;
+                        font-weight: 700;
+                        flex-shrink: 0;
+                    }
 
                     &:last-child {
                         border-bottom: none;
                     }
                 }
             }
+        }
+
+        // -- Utilitaire
+        .is-hidden {
+            display: none !important;
         }
     }
 }
